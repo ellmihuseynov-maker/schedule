@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Curriculum Studio — Elmi Huseynov</title>
+<style>
+  :root{
+    --bg:#f4f6fb; --card:#ffffff; --card2:#f8fafd;
+    --border:#e5e9f2; --border2:#d8dfec;
+    --text:#1b2340; --muted:#6b7694; --faint:#9aa5c0;
+    --g1:#6366f1; --g2:#10b981; --g3:#f59e0b; --blue:#0ea5e9; --rose:#f43f5e;
+    --accent:#6366f1; --accent2:#10b981; --gold:#f59e0b;
+    --shadow:0 1px 2px rgba(27,35,64,.05),0 8px 26px rgba(27,35,64,.07);
+    --shadow-lg:0 14px 44px rgba(27,35,64,.13);
+    --radius:18px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:"Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+    background:radial-gradient(1100px 500px at 85% -10%,rgba(99,102,241,.07),transparent),
+               radial-gradient(900px 500px at -10% 110%,rgba(16,185,129,.06),transparent),var(--bg);
+    color:var(--text);min-height:100vh}
+  header{position:sticky;top:0;z-index:60;backdrop-filter:blur(14px);background:rgba(255,255,255,.88);border-bottom:1px solid var(--border)}
+  .hwrap{max-width:1380px;margin:0 auto;padding:11px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .logo{display:flex;align-items:center;gap:11px;font-size:18px;font-weight:800}
+  .logo .mark{width:37px;height:37px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,#6366f1,#0ea5e9);box-shadow:0 6px 16px rgba(99,102,241,.32);font-size:17px}
+  .logo small{display:block;font-size:10px;color:var(--muted);font-weight:700;letter-spacing:1.3px;text-transform:uppercase}
+  .tabs{display:flex;gap:5px;background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:4px}
+  .tab{border:none;background:transparent;color:var(--muted);padding:8px 15px;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;transition:.16s;white-space:nowrap}
+  .tab:hover{color:var(--text)}
+  .tab.active{background:#fff;color:var(--accent);box-shadow:0 2px 8px rgba(27,35,64,.10)}
+  .spacer{flex:1}
+  .bell{position:relative;border:1px solid var(--border);background:var(--card);width:39px;height:39px;border-radius:12px;cursor:pointer;font-size:16px;display:grid;place-items:center;transition:.16s;color:var(--muted)}
+  .bell:hover{border-color:var(--accent);color:var(--accent)}
+  .bell .bdg{position:absolute;top:-5px;right:-5px;min-width:18px;height:18px;border-radius:99px;background:var(--rose);color:#fff;font-size:10px;font-weight:800;display:grid;place-items:center;padding:0 4px;box-shadow:0 2px 6px rgba(244,63,94,.4)}
+  .btn{border:1px solid var(--border);background:var(--card);color:var(--text);padding:8px 15px;border-radius:11px;font-size:13px;font-weight:600;cursor:pointer;transition:.18s;display:inline-flex;align-items:center;gap:7px}
+  .btn:hover{border-color:var(--accent);transform:translateY(-1px);box-shadow:0 4px 14px rgba(99,102,241,.16)}
+  .btn.primary{background:linear-gradient(135deg,#6366f1,#0ea5e9);border:none;color:#fff}
+  .btn.danger:hover{border-color:var(--rose);color:var(--rose)}
+  .btn.ghost{background:transparent}
+  .btn.sm{padding:5px 11px;font-size:12px;border-radius:9px}
+  main{max-width:1380px;margin:0 auto;padding:22px 24px 90px}
+  .panel{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}
+  .panel h3{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:13px;display:flex;align-items:center;gap:8px}
+  .hidden{display:none !important}
+  ::-webkit-scrollbar{width:9px;height:9px}
+  ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:99px}
+  #toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(80px);background:#1b2340;color:#fff;padding:12px 22px;border-radius:14px;font-size:13px;font-weight:600;box-shadow:var(--shadow-lg);opacity:0;transition:.35s cubic-bezier(.2,.8,.2,1);z-index:99;pointer-events:none;display:flex;align-items:center;gap:9px;max-width:90vw}
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .kbd-hint{font-size:10.5px;color:var(--faint)}
+  /* ===== DASHBOARD ===== */
+  .dash-grid{display:grid;grid-template-columns:1.25fr 1fr;gap:18px;margin-bottom:18px}
+  @media(max-width:960px){.dash-grid{grid-template-columns:1fr}}
+  .hello{font-size:24px;font-weight:800}
+  .hello small{display:block;font-size:13px;color:var(--muted);font-weight:600;margin-top:4px}
+  .next-card{margin-top:16px;border-radius:16px;padding:16px 18px;border:1.5px solid #c7d2fe;background:linear-gradient(135deg,#eef2ff,#fdf4ff);display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+  .next-card .nc-left{flex:1;min-width:220px}
+  .next-card .nc-when{font-size:11px;font-weight:800;color:#6366f1;text-transform:uppercase;letter-spacing:1px}
+  .next-card .nc-course{font-size:19px;font-weight:800;margin-top:4px}
+  .next-card .nc-students{font-size:12px;color:var(--muted);margin-top:5px;line-height:1.55}
+  .countdown{background:#fff;border:1px solid #e0e7ff;border-radius:14px;padding:10px 18px;text-align:center;box-shadow:0 4px 14px rgba(99,102,241,.10)}
+  .countdown b{font-size:24px;display:block;color:#4338ca}
+  .countdown span{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:700}
+  .today-list{margin-top:14px}
+  .today-row{display:flex;align-items:center;gap:12px;padding:9px 12px;border-radius:11px;border:1px solid transparent;transition:.14s;cursor:pointer}
+  .today-row:hover{background:var(--card2)}
+  .today-row.live{background:linear-gradient(135deg,#eef2ff,#f5f3ff);border-color:#c7d2fe}
+  .today-row.done{opacity:.55}
+  .today-row .tr-time{font-size:11px;font-weight:800;color:var(--muted);width:96px;flex-shrink:0}
+  .today-row .sw{width:8px;height:26px;border-radius:99px;flex-shrink:0}
+  .today-row .tr-body{flex:1;min-width:0}
+  .today-row .tr-body b{font-size:13px;display:block}
+  .today-row .tr-body span{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+  .today-row .tr-state{font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:99px;flex-shrink:0}
+  .tr-state.live{background:#6366f1;color:#fff}
+  .tr-state.done{background:#d1fae5;color:#059669}
+  .tr-state.todo{background:#eef2f7;color:var(--muted)}
+  .stat-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
+  @media(max-width:640px){.stat-strip{grid-template-columns:repeat(2,1fr)}}
+  .stat-box{background:var(--card2);border:1px solid var(--border);border-radius:13px;padding:12px 14px}
+  .stat-box b{font-size:20px;display:block}
+  .stat-box span{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;font-weight:700}
+  .ring{position:relative;width:92px;height:92px;flex-shrink:0}
+  .ring svg{transform:rotate(-90deg)}
+  .ring .rv{position:absolute;inset:0;display:grid;place-items:center;font-weight:800;font-size:18px}
+  .dash-side{display:flex;flex-direction:column;gap:14px}
+  .day-pills{display:flex;gap:8px;flex-wrap:wrap}
+  .day-pill{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:9px 12px;min-width:100px;flex:1;cursor:pointer;transition:.14s}
+  .day-pill:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(27,35,64,.08)}
+  .day-pill b{font-size:12px;display:block}
+  .day-pill .dp-track{height:5px;background:var(--border);border-radius:99px;overflow:hidden;margin-top:6px}
+  .day-pill .dp-fill{height:100%;border-radius:99px;background:var(--accent2)}
+  .day-pill span{font-size:10.5px;color:var(--muted)}
+  .course-card{border:1px solid var(--border);border-radius:15px;padding:15px 17px;margin-bottom:11px;background:var(--card);transition:.15s;cursor:pointer}
+  .course-card:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(27,35,64,.09);border-color:var(--cc)}
+  .course-card .cc-top{display:flex;align-items:center;gap:12px}
+  .course-card .cc-badge{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-weight:800;font-size:14px;color:#fff;background:var(--cc);flex-shrink:0}
+  .course-card .cc-info{flex:1;min-width:0}
+  .course-card .cc-info b{font-size:15px;display:block}
+  .course-card .cc-info span{font-size:11.5px;color:var(--muted)}
+  .course-card .cc-pct{font-size:19px;font-weight:800;color:var(--cc)}
+  .course-card .cc-bar{height:6px;background:var(--border);border-radius:99px;overflow:hidden;margin-top:10px}
+  .course-card .cc-bar i{display:block;height:100%;border-radius:99px;background:var(--cc);transition:width .5s}
+  .course-card .cc-groups{display:flex;gap:6px;margin-top:10px}
+  .course-card .cc-g{flex:1;text-align:center;font-size:10px;color:var(--muted);font-weight:700}
+  .course-card .cc-g .gm{height:4px;background:var(--border);border-radius:99px;overflow:hidden;margin-top:4px}
+  .course-card .cc-g .gm i{display:block;height:100%}
+  /* ===== CURRICULUM ===== */
+  .course-pills{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+  .cpill{border:1.5px solid var(--border);background:var(--card);border-radius:13px;padding:10px 16px;cursor:pointer;transition:.15s;display:flex;align-items:center;gap:10px;font-weight:700;font-size:13.5px;color:var(--muted)}
+  .cpill:hover{border-color:var(--cc);color:var(--text)}
+  .cpill.active{border-color:var(--cc);box-shadow:0 0 0 1px var(--cc) inset,0 4px 14px rgba(27,35,64,.08);color:var(--text)}
+  .cpill .cdot{width:10px;height:10px;border-radius:50%;background:var(--cc)}
+  .cpill .cp-pct{font-size:11px;font-weight:800;color:var(--cc)}
+  .toolbar{display:flex;gap:9px;margin:14px 0 0;flex-wrap:wrap;align-items:center}
+  .toolbar input#search{background:var(--card);border:1px solid var(--border);color:var(--text);padding:8px 14px 8px 36px;border-radius:11px;font-size:13px;width:210px;outline:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='%236b7694' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:12px center}
+  .toolbar input#search:focus{border-color:var(--accent)}
+  .course-hero{background:linear-gradient(135deg,#ffffff 0%,var(--card2) 100%);border:1px solid var(--border);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow);margin-bottom:18px;position:relative;overflow:hidden}
+  .course-hero::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(500px 200px at 92% 0%,var(--hero-glow),transparent)}
+  .hero-top{display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap;position:relative;z-index:1}
+  .hero-badge{width:58px;height:58px;border-radius:16px;display:grid;place-items:center;flex-shrink:0;font-weight:800;font-size:17px;color:#fff;background:var(--hero-grad);box-shadow:0 8px 20px rgba(99,102,241,.28)}
+  .hero-title{flex:1;min-width:220px}
+  .hero-title h1{font-size:21px;font-weight:800}
+  .hero-title h1 span[contenteditable]{outline:none;border-bottom:2px dashed transparent}
+  .hero-title h1 span[contenteditable]:hover,.hero-title h1 span[contenteditable]:focus{border-bottom-color:var(--accent)}
+  .hero-title p{color:var(--muted);font-size:12.5px;margin-top:3px}
+  .hero-stats{display:flex;gap:24px;position:relative;z-index:1;margin-top:16px;flex-wrap:wrap}
+  .stat b{font-size:21px;display:block}
+  .stat span{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+  .group-tabs{display:flex;gap:11px;margin-top:18px;position:relative;z-index:1;flex-wrap:wrap}
+  .g-tab{flex:1;min-width:190px;background:var(--card2);border:1.5px solid var(--border);border-radius:14px;padding:12px 14px;cursor:pointer;transition:.18s;position:relative;overflow:hidden}
+  .g-tab:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(27,35,64,.08)}
+  .g-tab.active{border-color:var(--gcol);box-shadow:0 0 0 1px var(--gcol) inset,0 6px 18px rgba(27,35,64,.08)}
+  .g-tab .g-head{display:flex;align-items:center;gap:9px;margin-bottom:8px}
+  .g-tab .g-dot{width:11px;height:11px;border-radius:50%;background:var(--gcol)}
+  .g-tab .g-head b{font-size:13px}
+  .g-tab .g-head .g-pct{margin-left:auto;font-size:12px;font-weight:800;color:var(--gcol)}
+  .g-tab .g-bar{height:6px;background:var(--border);border-radius:99px;overflow:hidden}
+  .g-tab .g-bar i{display:block;height:100%;border-radius:99px;background:var(--gcol);transition:width .5s}
+  .g-tab .g-names{font-size:10.5px;color:var(--muted);margin-top:7px;line-height:1.5;max-height:32px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+  .g-tab .g-edit{position:absolute;top:9px;right:10px;font-size:11px;color:var(--faint);opacity:0}
+  .g-tab:hover .g-edit{opacity:.9}
+  .add-group{background:transparent;border:1.5px dashed var(--border2);border-radius:14px;color:var(--muted);font-size:13px;font-weight:700;cursor:pointer;min-width:110px}
+  .add-group:hover{border-color:var(--accent2);color:var(--accent2)}
+  .legend{display:flex;align-items:center;gap:15px;margin:15px 0 0;position:relative;z-index:1;font-size:11.5px;color:var(--muted);flex-wrap:wrap}
+  .legend .lg{display:inline-flex;align-items:center;gap:6px}
+  .legend .ld{width:9px;height:9px;border-radius:50%}
+  .unit{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;box-shadow:var(--shadow);overflow:hidden}
+  .unit-head{display:flex;align-items:center;gap:14px;padding:15px 19px;cursor:pointer;user-select:none;background:linear-gradient(90deg,var(--unit-tint),transparent 70%)}
+  .unit-head .u-num{width:35px;height:35px;border-radius:11px;background:var(--unit-grad);display:grid;place-items:center;font-weight:800;color:#fff;font-size:13.5px;flex-shrink:0}
+  .unit-head .u-name{flex:1;min-width:0}
+  .unit-head .u-name b{font-size:15px;display:block}
+  .unit-head .u-name span{font-size:11.5px;color:var(--muted)}
+  .u-progress{width:130px;flex-shrink:0}
+  .u-progress .track{height:6px;background:var(--border);border-radius:99px;overflow:hidden}
+  .u-progress .fill{height:100%;border-radius:99px;transition:width .5s}
+  .chev{transition:transform .25s;color:var(--faint);flex-shrink:0}
+  .unit.collapsed .chev{transform:rotate(-90deg)}
+  .unit-body{padding:4px 19px 18px;display:none}
+  .unit:not(.collapsed) .unit-body{display:block}
+  .chapter{background:var(--card2);border:1px solid var(--border);border-radius:13px;margin-top:11px;overflow:hidden}
+  .chapter-head{display:flex;align-items:center;gap:11px;padding:10px 14px;cursor:pointer;user-select:none}
+  .chapter-head:hover{background:rgba(99,102,241,.04)}
+  .chapter-head .c-tag{font-size:10px;font-weight:800;letter-spacing:1px;color:#fff;background:var(--unit-grad);padding:3px 9px;border-radius:7px;flex-shrink:0}
+  .chapter-head .c-name{flex:1;font-size:13px;font-weight:700;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .chapter-head .c-name em{font-style:normal;font-weight:500;font-size:11.5px;color:var(--muted)}
+  .chapter-head .c-bar{width:84px;height:5px;background:var(--border);border-radius:99px;overflow:hidden;flex-shrink:0}
+  .chapter-head .c-bar i{display:block;height:100%;border-radius:99px;transition:width .5s}
+  .chapter-head .c-count{font-size:10.5px;color:var(--muted);font-weight:700;flex-shrink:0}
+  .c-all{border:1px solid var(--border2);background:#fff;border-radius:8px;font-size:10.5px;font-weight:800;color:var(--muted);padding:4px 9px;cursor:pointer;transition:.14s;flex-shrink:0}
+  .c-all:hover{border-color:var(--accent2);color:var(--accent2)}
+  .chapter-body{padding:8px 14px 13px;display:none;flex-wrap:wrap;gap:7px}
+  .chapter:not(.collapsed) .chapter-body{display:flex}
+  .sec{display:inline-flex;align-items:center;gap:7px;background:#fff;border:1px solid var(--border2);border-radius:9px;padding:6px 10px;font-size:12px;cursor:pointer;transition:.15s;font-weight:600;color:var(--muted)}
+  .sec:hover{border-color:var(--accent);color:var(--text);transform:translateY(-1px)}
+  .sec .g-dots{display:inline-flex;gap:3px}
+  .sec .gd{width:7px;height:7px;border-radius:50%;background:var(--border)}
+  .sec .gd.g0.on{background:var(--g1);box-shadow:0 0 0 2.5px rgba(99,102,241,.15)}
+  .sec .gd.g1.on{background:var(--g2);box-shadow:0 0 0 2.5px rgba(16,185,129,.15)}
+  .sec .gd.g2.on{background:var(--g3);box-shadow:0 0 0 2.5px rgba(245,158,11,.15)}
+  .sec .box{width:14px;height:14px;border-radius:5px;border:1.5px solid var(--faint);display:grid;place-items:center;transition:.15s}
+  .sec .box svg{opacity:0;transform:scale(.4);transition:.18s}
+  .sec.done{border-color:rgba(16,185,129,.5);background:#f0fdf7}
+  .sec.done .box{background:var(--accent2);border-color:var(--accent2)}
+  .sec.done .box svg{opacity:1;transform:scale(1)}
+  .sec .del{opacity:0;color:var(--rose);font-weight:700}
+  .sec:hover .del{opacity:.75}
+  .add-row{display:flex;gap:8px;margin-top:11px}
+  .add-row input{flex:1;background:var(--card2);border:1px dashed var(--border2);color:var(--text);padding:8px 13px;border-radius:10px;font-size:12.5px;outline:none;min-width:0}
+  .add-row input:focus{border-color:var(--accent);border-style:solid}
+  .add-btn{background:transparent;border:1px dashed var(--border2);color:var(--muted);border-radius:10px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap}
+  .add-btn:hover{border-color:var(--accent2);color:var(--accent2)}
+  .icon-btn{background:transparent;border:none;color:var(--faint);cursor:pointer;font-size:14px;padding:4px 7px;border-radius:8px;opacity:0;transition:.15s}
+  .unit-head:hover .icon-btn,.chapter-head:hover .icon-btn{opacity:.7}
+  .icon-btn:hover{color:var(--rose);background:rgba(244,63,94,.08)}
+  .empty-state{text-align:center;padding:60px 20px;color:var(--muted)}
+  .empty-state .big{font-size:48px;margin-bottom:12px}
+  .empty-state h2{color:var(--text);margin-bottom:7px}
+  /* ===== SCHEDULE ===== */
+  .sched-top{display:flex;align-items:center;gap:13px;flex-wrap:wrap;margin-bottom:16px}
+  .sched-top h2{font-size:19px;font-weight:800}
+  .sched-sub{font-size:12px;color:var(--muted)}
+  .wk-nav{display:flex;align-items:center;gap:7px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:4px}
+  .wk-nav button{border:none;background:transparent;cursor:pointer;font-size:15px;color:var(--muted);width:31px;height:31px;border-radius:9px}
+  .wk-nav button:hover{background:var(--card2);color:var(--text)}
+  .wk-nav .wk-label{font-size:12.5px;font-weight:700;min-width:185px;text-align:center}
+  .sched-summary{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:14px}
+  .sched-summary .day-cards{display:flex;gap:9px;flex:1;flex-wrap:wrap}
+  .timetable{display:grid;grid-template-columns:60px repeat(5,1fr);gap:7px;overflow-x:auto}
+  .tt-head{font-size:11.5px;font-weight:800;text-align:center;padding:7px 4px;border-radius:10px;background:var(--card2);border:1px solid var(--border)}
+  .tt-head .dt{display:block;font-size:10px;color:var(--muted);font-weight:600;margin-top:2px}
+  .tt-head.today{background:linear-gradient(135deg,#eef2ff,#e0f2fe);border-color:#c7d2fe;color:#4338ca}
+  .tt-time{font-size:10.5px;color:var(--faint);font-weight:700;text-align:right;padding-top:9px}
+  .tt-cell{min-height:94px;border-radius:12px;border:1px dashed var(--border);background:var(--card2);padding:5px;transition:.15s}
+  .tt-cell.today-col{border-color:#c7d2fe;background:#fbfcff}
+  .tt-cell.lunch{border:none;background:transparent;display:grid;place-items:center;color:var(--faint);font-size:10.5px;font-weight:700;min-height:36px}
+  .cls{border-radius:10px;padding:7px 8px;cursor:pointer;transition:.16s;position:relative;border:1px solid;user-select:none}
+  .cls:hover{transform:translateY(-2px);box-shadow:0 6px 14px rgba(27,35,64,.10)}
+  .cls .cc{display:inline-block;font-size:9px;font-weight:800;letter-spacing:.5px;padding:2px 7px;border-radius:6px;color:#fff;margin-bottom:4px}
+  .cls .cn{font-size:11px;font-weight:700;line-height:1.3}
+  .cls .cs{font-size:9.5px;color:var(--muted);margin-top:3px;line-height:1.4}
+  .cls .ct{font-size:9px;color:var(--faint);font-weight:700;margin-top:3px}
+  .cls .ck{position:absolute;top:6px;right:6px;width:15px;height:15px;border-radius:50%;border:1.5px solid var(--border2);display:grid;place-items:center;background:#fff}
+  .cls .ck svg{opacity:0;transform:scale(.4);transition:.18s}
+  .cls.done .ck{background:var(--accent2);border-color:var(--accent2)}
+  .cls.done .ck svg{opacity:1;transform:scale(1)}
+  .cls.done::after{content:"";position:absolute;inset:0;border-radius:10px;background:rgba(16,185,129,.06);pointer-events:none}
+  .cls.now{box-shadow:0 0 0 2px #6366f1;animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 2px #6366f1}50%{box-shadow:0 0 0 4px rgba(99,102,241,.35)}}
+  .cls.past{opacity:.6}
+  .day-log{margin-top:18px}
+  .log-day{border:1px solid var(--border);border-radius:14px;margin-bottom:11px;overflow:hidden;background:var(--card)}
+  .log-day-h{display:flex;align-items:center;gap:11px;padding:10px 15px;background:var(--card2);cursor:pointer;user-select:none}
+  .log-day-h b{font-size:13px}
+  .log-day-h .lg-pill{margin-left:auto;font-size:10.5px;font-weight:800;padding:3px 10px;border-radius:99px;background:#eef2ff;color:#4338ca}
+  .log-day-b{padding:9px 15px 13px;display:none}
+  .log-day:not(.collapsed) .log-day-b{display:block}
+  .log-item{display:flex;align-items:center;gap:10px;padding:7px 9px;border-radius:9px;cursor:pointer}
+  .log-item:hover{background:var(--card2)}
+  .log-item .li-time{font-size:10.5px;font-weight:800;color:var(--muted);width:90px;flex-shrink:0}
+  .log-item .li-name{font-size:12.5px;font-weight:700;flex:1}
+  .log-item .li-students{font-size:10.5px;color:var(--muted);flex:2;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .log-check{width:19px;height:19px;border-radius:7px;border:1.5px solid var(--border2);display:grid;place-items:center;flex-shrink:0;background:#fff;transition:.15s}
+  .log-check svg{opacity:0;transform:scale(.4);transition:.18s}
+  .log-item.done .log-check{background:var(--accent2);border-color:var(--accent2)}
+  .log-item.done .log-check svg{opacity:1;transform:scale(1)}
+  .log-item.done .li-name{text-decoration:line-through;color:var(--faint)}
+  .swatch{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:6px;vertical-align:1px}
+  /* ===== NOTIFICATIONS ===== */
+  .notif-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:18px;align-items:start}
+  @media(max-width:920px){.notif-grid{grid-template-columns:1fr}}
+  .ncard{border:1px solid var(--border);border-radius:14px;padding:13px 15px;margin-bottom:11px;background:var(--card)}
+  .ncard.live{border-color:#c7d2fe;background:linear-gradient(135deg,#eef2ff,#f5f3ff)}
+  .ncard .n-time{font-size:10.5px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.8px}
+  .ncard .n-course{font-size:14.5px;font-weight:800;margin-top:3px}
+  .ncard .n-students{font-size:11.5px;color:var(--muted);margin-top:3px;line-height:1.5}
+  .ncard .n-when{font-size:11px;font-weight:700;margin-top:6px;color:#4338ca}
+  .ncard.next{border-color:#bbf7d0;background:linear-gradient(135deg,#f0fdf4,#ecfdf5)}
+  .ncard.next .n-when{color:#059669}
+  .ncard.pastn{opacity:.55}
+  .toggle{display:inline-flex;align-items:center;gap:9px;cursor:pointer;font-size:12.5px;font-weight:700;color:var(--muted);user-select:none}
+  .toggle .tk{width:38px;height:22px;border-radius:99px;background:var(--border2);position:relative;transition:.18s;flex-shrink:0}
+  .toggle .tk::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:.18s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+  .toggle.on .tk{background:var(--accent)}
+  .toggle.on .tk::after{left:19px}
+  .notif-item{display:flex;gap:11px;padding:10px 13px;border:1px solid var(--border);border-radius:12px;margin-bottom:8px;background:var(--card)}
+  .notif-item .ni-ic{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;font-size:14px;flex-shrink:0}
+  .notif-item b{font-size:12.5px;display:block}
+  .notif-item span{font-size:11px;color:var(--muted);display:block;margin-top:2px;line-height:1.5}
+  .hint{font-size:11.5px;color:var(--faint);line-height:1.7}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hwrap">
+    <div class="logo"><div class="mark">📘</div><div>Curriculum Studio<small>Elmi Huseynov · Rm 311</small></div></div>
+    <div class="tabs">
+      <button class="tab active" id="tabDash" onclick="switchView('dashboard')">🏠 Dashboard</button>
+      <button class="tab" id="tabCur" onclick="switchView('curriculum')">📚 Curriculum</button>
+      <button class="tab" id="tabSched" onclick="switchView('schedule')">🗓 Schedule</button>
+      <button class="tab" id="tabNotif" onclick="switchView('notifications')">🔔 Alerts</button>
+    </div>
+    <div class="spacer"></div>
+    <span class="kbd-hint hidden" id="kbdHint"></span>
+    <button class="bell" id="bellBtn" title="Class alerts">🔔<span class="bdg hidden" id="bellBadge">0</span></button>
+  </div>
+</header>
+
+<main>
+  <!-- ================= DASHBOARD ================= -->
+  <div id="viewDashboard">
+    <div class="dash-grid">
+      <div class="panel">
+        <div style="display:flex;align-items:flex-start;gap:14px;flex-wrap:wrap">
+          <div style="flex:1;min-width:220px">
+            <div class="hello"><span id="greetWord">Hello</span>, Elmi 👋<small id="greetDate"></small></div>
+          </div>
+          <button class="btn sm" onclick="switchView('schedule')">Full week →</button>
+        </div>
+        <div class="next-card" id="nextCard"></div>
+        <h3 style="margin-top:18px">Today's Classes</h3>
+        <div class="today-list" id="todayList"></div>
+        <div class="stat-strip" id="statStrip"></div>
+      </div>
+      <div class="dash-side">
+        <div class="panel">
+          <div style="display:flex;align-items:center;gap:15px">
+            <div class="ring">
+              <svg width="92" height="92" viewBox="0 0 92 92">
+                <circle cx="46" cy="46" r="39" fill="none" stroke="var(--border)" stroke-width="8"/>
+                <circle id="ringFill" cx="46" cy="46" r="39" fill="none" stroke="url(#rg)" stroke-width="8" stroke-linecap="round" stroke-dasharray="245" stroke-dashoffset="245" style="transition:stroke-dashoffset .6s"/>
+                <defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6366f1"/><stop offset="1" stop-color="#10b981"/></linearGradient></defs>
+              </svg>
+              <div class="rv" id="ringVal">0%</div>
+            </div>
+            <div style="flex:1;min-width:150px">
+              <b style="font-size:14px" id="weekDoneTxt">0 of 0 classes</b>
+              <div class="hint" style="margin-top:3px">Weekly delivery progress — tap a class anywhere to mark it delivered.</div>
+            </div>
+          </div>
+          <div class="day-pills" id="dayPills" style="margin-top:14px"></div>
+        </div>
+        <div class="panel">
+          <h3>Course Progress</h3>
+          <div id="dashCourses"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= CURRICULUM ================= -->
+  <div id="viewCurriculum" class="hidden">
+    <div class="course-pills" id="coursePills"></div>
+    <div id="content"></div>
+    <div class="toolbar">
+      <button class="btn primary sm" onclick="addCourse()">＋ New Course</button>
+      <button class="btn sm" onclick="exportData()">⬇ Export</button>
+      <button class="btn sm" onclick="document.getElementById('importFile').click()">⬆ Import</button>
+      <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
+      <button class="btn danger sm ghost" onclick="resetData()">↺ Reset</button>
+      <div class="spacer" style="flex:1"></div>
+      <input id="search" placeholder="Search sections, chapters…">
+    </div>
+  </div>
+
+  <!-- ================= SCHEDULE ================= -->
+  <div id="viewSchedule" class="hidden">
+    <div class="panel" style="margin-bottom:16px">
+      <div class="sched-top">
+        <div>
+          <h2>🗓 Weekly Plan — <span style="color:var(--accent)">Elmi Huseynov</span></h2>
+          <div class="sched-sub">Room 311 · Tap a class card to mark it delivered ✓</div>
+        </div>
+        <div class="spacer"></div>
+        <div class="wk-nav">
+          <button onclick="shiftWeek(-1)" title="Previous week">‹</button>
+          <div class="wk-label" id="wkLabel"></div>
+          <button onclick="shiftWeek(1)" title="Next week">›</button>
+        </div>
+        <button class="btn sm" onclick="goThisWeek()">This week</button>
+      </div>
+      <div class="sched-summary">
+        <div class="ring" style="width:74px;height:74px">
+          <svg width="74" height="74" viewBox="0 0 74 74">
+            <circle cx="37" cy="37" r="31" fill="none" stroke="var(--border)" stroke-width="7"/>
+            <circle id="ringFillS" cx="37" cy="37" r="31" fill="none" stroke="url(#rg)" stroke-width="7" stroke-linecap="round" stroke-dasharray="194.8" stroke-dashoffset="194.8" style="transition:stroke-dashoffset .6s"/>
+          </svg>
+          <div class="rv" id="ringValS" style="font-size:15px">0%</div>
+        </div>
+        <div style="min-width:150px">
+          <b style="font-size:13.5px" id="weekDoneTxtS">0 of 0</b>
+          <div class="hint">Delivered this week</div>
+        </div>
+        <div class="day-cards" id="dayCards"></div>
+      </div>
+    </div>
+    <div class="panel" style="overflow-x:auto">
+      <div class="timetable" id="timetable"></div>
+    </div>
+    <div class="panel day-log" style="margin-top:16px">
+      <h3>📋 Daily Delivery Log — <span id="logWeek"></span></h3>
+      <div id="dayLog"></div>
+    </div>
+  </div>
+
+  <!-- ================= NOTIFICATIONS ================= -->
+  <div id="viewNotif" class="hidden">
+    <div class="notif-grid">
+      <div class="panel">
+        <h3>⏰ Today's Timeline</h3>
+        <div id="todayPanel"></div>
+      </div>
+      <div class="panel">
+        <h3>🔔 Class Reminders</h3>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:13px;flex-wrap:wrap">
+          <div class="toggle" id="notifToggle" onclick="toggleNotifs()"><div class="tk"></div><span id="notifToggleTxt">Reminders off</span></div>
+        </div>
+        <div id="notifFeed"></div>
+        <p class="hint" style="margin-top:8px">When on, alerts pop 10 minutes before each class — with the course and the exact group of students.</p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div id="toast"></div>
+<script>
+/* ================= SCHEDULE DATA (from [KA] SCHEDULE 2026-2027.xlsx — T Elmi Huseynov, Rm 311) ================= */
+const SLOTS = ["09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00"];
+const SLOT_END = {"09:00":"09:55","10:00":"10:55","11:00":"11:55","12:00":"12:55","13:00":"14:00","14:00":"14:55","15:00":"15:55","16:00":"17:00","17:00":"18:00"};
+const TEACHER = {name:"Elmi Huseynov", room:"Rm 311"};
+const SCHEDULE = [
+ {day:1,start:"09:00",course:"Guided Study",code:"GS",students:["Mehriaban Zeynalova","Nezrin Cebrailova","Fatime Zeynalova","Ulvi Xelili","Aida Mammadova"]},
+ {day:1,start:"10:00",course:"MCR3U – Functions",code:"MCR3U",students:["Adelina Yeqorova","Beyler Babayev","Fazil Sahbazli","Ibrahim Novruzov","Kamilla Memmedzade"]},
+ {day:1,start:"11:00",course:"MPM2D – Principles of Mathematics",code:"MPM2D",students:["Narminə Bakhshaliyeva","Nasirova Aylin","Rena Sultanova"]},
+ {day:1,start:"12:00",course:"Guided Study",code:"GS",students:["Aylin Rafiyeva","Latif Haciyev","Narminə Bakhshaliyeva","Tunar Elizade"]},
+ {day:1,start:"14:00",course:"MCR3U – Functions",code:"MCR3U",students:["Muhammed Yagubeliyev","Nezrin Meherremli","Tunar Usubalizade","Vefa Kocerli","Xedice Zeynalli"]},
+ {day:1,start:"15:00",course:"MPM2D – Principles of Mathematics",code:"MPM2D",students:["Mahammad Amrah","Mehriaban Zeynalova"]},
+ {day:1,start:"16:00",course:"MPM2D – Principles of Mathematics",code:"MPM2D",students:["Fatima Rahimli","Isgender Axundov"]},
+ {day:2,start:"10:00",course:"MCR3U – Functions",code:"MCR3U",students:["Adelina Yeqorova","Beyler Babayev","Fazil Sahbazli","Ibrahim Novruzov","Kamilla Memmedzade"]},
+ {day:2,start:"11:00",course:"Guided Study",code:"GS",students:["Nuray İsayeva","Isgender Axundov","Fehreddin","Tunar Usubalizade","Ali Khuduzada","Aida Mammadova"]},
+ {day:2,start:"15:00",course:"Guided Study",code:"GS",students:["Nezrin Cebrailova","Zeyd Yaqubeliyev","Aylin Rafiyeva","İbrahim Heyderov","Aida Mammadova"]},
+ {day:2,start:"16:00",course:"CELT Math",code:"CELT",students:["Veli Shixlar"]},
+ {day:2,start:"17:00",course:"CELT Math",code:"CELT",students:["Veli Shixlar"]},
+ {day:3,start:"09:00",course:"MCR3U – Functions",code:"MCR3U",students:["Ali Khuduzada","Aylin Rafiyeva","Emilliya Bayramzada","Nezrin Cebrailova","Aida Mammadova"]},
+ {day:3,start:"10:00",course:"MPM2D – Principles of Mathematics",code:"MPM2D",students:["Mahammad Amrah","Mehriaban Zeynalova"]},
+ {day:3,start:"11:00",course:"Guided Study",code:"GS",students:["Aida Mammadova","Ayan Khalilli","Narminə Bakhshaliyeva","Aylin Rafiyeva","Nezrin Meherremli","Ali Khuduzada"]},
+ {day:3,start:"14:00",course:"MPM2D – Principles of Mathematics",code:"MPM2D",students:["Narminə Bakhshaliyeva","Nasirova Aylin","Rena Sultanova"]},
+ {day:3,start:"15:00",course:"MPM2D – Principles of Mathematics",code:"MPM2D",students:["Fatima Rahimli","Isgender Axundov"]},
+ {day:3,start:"16:00",course:"CELT Math",code:"CELT",students:["Veli Shixlar"]},
+ {day:3,start:"17:00",course:"CELT Math",code:"CELT",students:["Veli Shixlar"]},
+ {day:4,start:"09:00",course:"MCR3U – Functions",code:"MCR3U",students:["Adelina Yeqorova","Beyler Babayev","Fazil Sahbazli","Ibrahim Novruzov","Kamilla Memmedzade"]},
+ {day:4,start:"10:00",course:"MCR3U – Functions",code:"MCR3U",students:["Muhammed Yagubeliyev","Nezrin Meherremli","Tunar Usubalizade","Vefa Kocerli","Xedice Zeynalli"]},
+ {day:4,start:"11:00",course:"Guided Study",code:"GS",students:["Fatima Rahimli","Rufet Hacizade","Kamilla Memmedzade","Ibrahim Novruzov","Tunar Usubalizade"]},
+ {day:4,start:"12:00",course:"MCR3U – Functions",code:"MCR3U",students:["Ali Khuduzada","Aylin Rafiyeva","Emilliya Bayramzada","Nezrin Cebrailova","Aida Mammadova"]},
+ {day:4,start:"14:00",course:"Guided Study",code:"GS",students:["Nezrin Cebrailova","Doruk Ileri","Natavan Suleymanova","Aida Mammadova"]},
+ {day:4,start:"16:00",course:"Guided Study",code:"GS",students:["Məshəti","Beyler Babayev","Adelina Yeqorova","Mahammad Hasanli","Vefa Kocerli"]},
+ {day:4,start:"17:00",course:"CELT Math",code:"CELT",students:["Veli Shixlar"]},
+ {day:5,start:"10:00",course:"MCR3U – Functions",code:"MCR3U",students:["Muhammed Yagubeliyev","Nezrin Meherremli","Tunar Usubalizade","Vefa Kocerli","Xedice Zeynalli"]},
+ {day:5,start:"11:00",course:"MCR3U – Functions",code:"MCR3U",students:["Ali Khuduzada","Aylin Rafiyeva","Emilliya Bayramzada","Nezrin Cebrailova","Aida Mammadova"]},
+ {day:5,start:"12:00",course:"MPM2D – Principles of Mathematics",code:"MPM2D",students:["Mahammad Amrah","Mehriaban Zeynalova"]},
+ {day:5,start:"14:00",course:"Guided Study",code:"GS",students:["Rufet Hacizade","Mahammad Ali Nijazade","Ibrahim Novruzov","Nezrin Meherremli","Xedice Zeynalli"]},
+ {day:5,start:"15:00",course:"MPM2D – Principles of Mathematics",code:"MPM2D",students:["Narminə Bakhshaliyeva","Nasirova Aylin","Rena Sultanova"]},
+ {day:5,start:"16:00",course:"MPM2D – Principles of Mathematics",code:"MPM2D",students:["Fatima Rahimli","Isgender Axundov"]}
+];
+
+/* ================= CURRICULUM DATA (from Curricullum.xlsx) ================= */
+const CURRICULUM_SEED = [
+ {code:"MCR3U", title:"Functions", color:"#6366f1",
+  groups:[
+   {name:"Group 1", students:["Adelina Yeqorova","Beyler Babayev","Fazil Sahbazli","Ibrahim Novruzov","Kamilla Memmedzade"]},
+   {name:"Group 2", students:["Muhammed Yagubeliyev","Nezrin Meherremli","Tunar Usubalizade","Vefa Kocerli","Xedice Zeynalli"]},
+   {name:"Group 3", students:["Ali Khuduzada","Aylin Rafiyeva","Emilliya Bayramzada","Nezrin Cebrailova","Aida Mammadova"]}],
+  units:[
+   {name:"Unit 1", chapters:[
+     {name:"Chapter 1", note:"Relations and functions", secs:["1.1","1.2","1.3","1.4","1.5","1.6","1.7","1.8"]},
+     {name:"Chapter 2", note:"", secs:["2.1","2.2","2.3","2.4","2.5","2.6","2.7"]},
+     {name:"Chapter 3", note:"", secs:["3.1","3.2","3.3","3.4","3.5","3.6","3.7","3.8"]}]},
+   {name:"Unit 2", chapters:[{name:"Chapter 4", note:"", secs:["4.1","4.2","4.3","4.4","4.5","4.6","4.7"]}]},
+   {name:"Unit 3", chapters:[
+     {name:"Chapter 5", note:"", secs:["5.1","5.2","5.3","5.4","5.5","5.6","5.7","5.8"]},
+     {name:"Chapter 6", note:"", secs:["6.1","6.2","6.3","6.4","6.5","6.6","6.7"]}]},
+   {name:"Unit 4", chapters:[
+     {name:"Chapter 7", note:"", secs:["7.1","7.2","7.3","7.4","7.5","7.6","7.7"]},
+     {name:"Chapter 8", note:"", secs:["8.1","8.2","8.3","8.4","8.5","8.6"]}]},
+   {name:"Assessment", chapters:[{name:"Rich Summative Task", note:"Course-culminating task", secs:["Summative Task"]}]}
+  ]},
+ {code:"MPM2D", title:"Principles of Mathematics", color:"#10b981",
+  groups:[
+   {name:"Group 1", students:["Narminə Bakhshaliyeva","Nasirova Aylin","Rena Sultanova"]},
+   {name:"Group 2", students:["Mahammad Amrah","Mehriaban Zeynalova"]},
+   {name:"Group 3", students:["Fatima Rahimli","Isgender Axundov"]}],
+  units:[
+   {name:"Unit 1", chapters:[
+     {name:"Chapter 1", note:"Representing Linear Relations", secs:["1.1","1.2","1.3","1.4","1.5","1.6","1.7"]},
+     {name:"Chapter 2", note:"", secs:["2.1","2.2","2.3","2.4","2.5","2.6","2.7"]}]},
+   {name:"Unit 2", chapters:[
+     {name:"Chapter 3", note:"", secs:["3.1","3.2","3.3","3.4","3.5"]},
+     {name:"Chapter 4", note:"", secs:["4.1","4.2","4.3","4.4","4.5"]},
+     {name:"Chapter 5", note:"", secs:["5.1","5.2","5.3","5.4","5.5","5.6"]},
+     {name:"Chapter 6", note:"", secs:["6.1","6.2","6.3","6.4","6.5","6.6"]}]},
+   {name:"Unit 3", chapters:[
+     {name:"Chapter 7", note:"", secs:["7.1","7.2","7.3","7.4","7.5","7.6"]},
+     {name:"Chapter 8", note:"", secs:[]}]},
+   {name:"Assessment", chapters:[{name:"Rich Summative Task", note:"", secs:["Summative Task"]}]}
+  ]}
+];
+
+/* ================= STATE ================= */
+const LS_KEY = "curriculum-studio-v4";
+var schedDone = {}, notifSent = {}, notifOn = false;
+let courses = load();
+let activeId = courses[0] ? courses[0].id : null;
+let view = "dashboard";
+let weekOffset = 0;
+
+function migrate(list){
+  list.forEach(c=>{
+    if(!c.groups||!c.groups.length) c.groups=[{name:"Group 1",students:[]}];
+    if(typeof c.activeGroup!=="number") c.activeGroup=0;
+    c.units.forEach(u=>u.chapters.forEach(ch=>ch.secs.forEach(s=>{
+      if(typeof s.done==="boolean") s.done=c.groups.map(()=>s.done);
+      while(s.done.length<c.groups.length) s.done.push(false);
+    })));
+  });
+  return list;
+}
+function seedCourses(){
+  return CURRICULUM_SEED.map((c,i)=>({
+    id:"seed-"+c.code, code:c.code, title:c.title, color:c.color, activeGroup:0,
+    groups:JSON.parse(JSON.stringify(c.groups)),
+    units:JSON.parse(JSON.stringify(c.units)).map(u=>({name:u.name,chapters:u.chapters.map(ch=>({name:ch.name,note:ch.note||"",secs:ch.secs.map(s=>({label:s,done:c.groups.map(()=>false)}))}))})),
+    palette:i
+  }));
+}
+function load(){
+  try{const d=JSON.parse(localStorage.getItem(LS_KEY));
+    if(d&&d.courses&&d.courses.length){ schedDone=d.schedDone||{}; notifOn=!!d.notifOn; notifSent=d.notifSent||{}; return migrate(d.courses); }
+  }catch(e){}
+  return seedCourses();
+}
+function save(){ localStorage.setItem(LS_KEY, JSON.stringify({courses,schedDone,notifOn,notifSent})); renderAll(); }
+const $ = s=>document.querySelector(s);
+const esc = s=>String(s).replace(/[&<>"]/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
+function toast(msg){const t=$("#toast");t.innerHTML=msg;t.classList.add("show");clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove("show"),3200);}
+
+/* ================= HELPERS ================= */
+const GCOLORS = ["#6366f1","#10b981","#f59e0b","#f97316","#0ea5e9","#a855f7"];
+const PALETTES = [
+  {grad:"linear-gradient(135deg,#6366f1,#0ea5e9)", glow:"rgba(99,102,241,.14)", tint:"rgba(99,102,241,.07)"},
+  {grad:"linear-gradient(135deg,#10b981,#0ea5e9)", glow:"rgba(16,185,129,.13)", tint:"rgba(16,185,129,.07)"},
+  {grad:"linear-gradient(135deg,#f59e0b,#f97316)", glow:"rgba(245,158,11,.12)", tint:"rgba(245,158,11,.06)"},
+  {grad:"linear-gradient(135deg,#f43f5e,#a855f7)", glow:"rgba(244,63,94,.12)", tint:"rgba(244,63,94,.06)"},
+  {grad:"linear-gradient(135deg,#0ea5e9,#10b981)", glow:"rgba(14,165,233,.13)", tint:"rgba(14,165,233,.07)"},
+  {grad:"linear-gradient(135deg,#a855f7,#f97316)", glow:"rgba(168,85,247,.12)", tint:"rgba(168,85,247,.06)"}
+];
+function countCourse(c,gi){let t=0,d=0;c.units.forEach(u=>u.chapters.forEach(ch=>ch.secs.forEach(s=>{t++;if(s.done[gi])d++;})));return{t,d};}
+function countCourseAll(c){let t=0,d=0;c.units.forEach(u=>u.chapters.forEach(ch=>ch.secs.forEach(s=>{t++;s.done.forEach(v=>{if(v)d++;});})));return{t:c.groups.length*t,d};}
+function countUnit(u,gi){let t=0,d=0;u.chapters.forEach(ch=>ch.secs.forEach(s=>{t++;if(s.done[gi])d++;}));return{t,d};}
+function countChapter(ch,gi){let t=ch.secs.length,d=ch.secs.filter(s=>s.done[gi]).length;return{t,d};}
+function palette(c){return PALETTES[(c.palette||0)%PALETTES.length];}
+function gcol(i){return GCOLORS[i%GCOLORS.length];}
+function active(){return courses.find(x=>x.id===activeId);}
+
+/* ================= VIEW SWITCHING ================= */
+function switchView(v){
+  view=v;
+  ["tabDash","tabCur","tabSched","tabNotif"].forEach((id,i)=>$("#"+id).classList.toggle("active",["dashboard","curriculum","schedule","notifications"][i]===v));
+  $("#viewDashboard").classList.toggle("hidden",v!=="dashboard");
+  $("#viewCurriculum").classList.toggle("hidden",v!=="curriculum");
+  $("#viewSchedule").classList.toggle("hidden",v!=="schedule");
+  $("#viewNotif").classList.toggle("hidden",v!=="notifications");
+  renderAll();
+}
+$("#bellBtn").onclick=()=>switchView("notifications");
+document.addEventListener("keydown",e=>{
+  if(/INPUT|TEXTAREA/.test(e.target.tagName))return;
+  const map={"1":"dashboard","2":"curriculum","3":"schedule","4":"notifications"};
+  if(map[e.key])switchView(map[e.key]);
+});
+function renderAll(){
+  updateBell();
+  if(view==="dashboard")renderDashboard();
+  if(view==="curriculum"){renderCoursePills();renderContent();}
+  if(view==="schedule")renderSchedule();
+}
+
+/* ================= DASHBOARD ================= */
+const DAY_NAMES=["Monday","Tuesday","Wednesday","Thursday","Friday"],DAY_SHORT=["Mon","Tue","Wed","Thu","Fri"];
+const MONTHS=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+function mondayOf(offset){const n=new Date();const d=new Date(n.getFullYear(),n.getMonth(),n.getDate());d.setDate(d.getDate()-((d.getDay()+6)%7)+offset*7);return d;}
+function iso(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+function skey(dateISO,cls){return dateISO+"|"+cls.day+"|"+cls.start;}
+function toMin(hm){const p=hm.split(":").map(Number);return p[0]*60+p[1];}
+function nowMin(){const n=new Date();return n.getHours()*60+n.getMinutes();}
+function fmtDur(m){if(m<60)return m+" min";const h=Math.floor(m/60),mm=m%60;return h+"h"+(mm?" "+mm+"m":"");}
+function todaysClasses(){const dow=(new Date().getDay()+6)%7+1;return SCHEDULE.filter(c=>c.day===dow).sort((a,b)=>toMin(a.start)-toMin(b.start));}
+function styleFor(code){return {MCR3U:{bg:"#eef2ff",bd:"#c7d2fe",tx:"#4338ca",tag:"#6366f1"},MPM2D:{bg:"#ecfdf5",bd:"#a7f3d0",tx:"#047857",tag:"#10b981"},GS:{bg:"#f0f9ff",bd:"#bae6fd",tx:"#0369a1",tag:"#0ea5e9"},CELT:{bg:"#fffbeb",bd:"#fde68a",tx:"#b45309",tag:"#f59e0b"}}[code]||{bg:"#f0f9ff",bd:"#bae6fd",tx:"#0369a1",tag:"#0ea5e9"};}
+function weekStats(offset){
+  const mon=mondayOf(offset);let total=0,done=0;const days=[];
+  for(let i=0;i<5;i++){const d=new Date(mon);d.setDate(mon.getDate()+i);const di=iso(d);
+    const list=SCHEDULE.filter(c=>c.day===i+1);
+    const dd=list.filter(c=>schedDone[skey(di,c)]).length;
+    days.push({date:d,dateISO:di,t:list.length,d:dd});total+=list.length;done+=dd;}
+  return{total,done,days};
+}
+function clsStatus(cls,dateISO){
+  if(schedDone[skey(dateISO,cls)])return"done";
+  const tISO=iso(new Date());
+  if(dateISO!==tISO)return dateISO<tISO?"past":"";
+  const n=nowMin(),s=toMin(cls.start),e=toMin(SLOT_END[cls.start]);
+  if(n>=s&&n<e)return"now"; if(n>=e)return"past"; return"";
+}
+function renderDashboard(){
+  const n=new Date(),h=n.getHours();
+  $("#greetWord").textContent=h<12?"Good morning":h<17?"Good afternoon":"Good evening";
+  $("#greetDate").textContent=DAY_NAMES[(n.getDay()+6)%7]+", "+n.getDate()+" "+MONTHS[n.getMonth()]+" "+n.getFullYear()+" · Room 311";
+  /* next class */
+  const list=todaysClasses(),nm=nowMin(),todayISO=iso(n);
+  let live=list.find(c=>{const s=toMin(c.start),e=toMin(SLOT_END[c.start]);return nm>=s&&nm<e;});
+  let next=list.find(c=>toMin(c.start)>nm);
+  const nc=$("#nextCard");
+  if(live){
+    const st=styleFor(live.code);
+    nc.innerHTML='<div class="nc-left"><div class="nc-when">🔴 Live now · until '+SLOT_END[live.start]+'</div>'+
+      '<div class="nc-course"><span class="swatch" style="background:'+st.tag+'"></span>'+esc(live.course)+'</div>'+
+      '<div class="nc-students">'+esc(live.students.join(", "))+'</div></div>'+
+      '<div class="countdown"><b>LIVE</b><span>in session</span></div>';
+  }else if(next){
+    const st=styleFor(next.code),mins=toMin(next.start)-nm;
+    nc.innerHTML='<div class="nc-left"><div class="nc-when">Next class</div>'+
+      '<div class="nc-course"><span class="swatch" style="background:'+st.tag+'"></span>'+esc(next.course)+'</div>'+
+      '<div class="nc-students">'+esc(next.students.join(", "))+'</div></div>'+
+      '<div class="countdown"><b>'+fmtDur(mins)+'</b><span>starts '+next.start+'</span></div>';
+  }else{
+    const tm=SCHEDULE.filter(c=>c.day===((n.getDay()+6)%7+1)%5+1).sort((a,b)=>toMin(a.start)-toMin(b.start))[0];
+    nc.innerHTML='<div class="nc-left"><div class="nc-when">All done for today ✅</div>'+
+      '<div class="nc-course" style="font-size:15px">No more classes scheduled.</div>'+
+      (tm?'<div class="nc-students">Next up: tomorrow '+tm.start+' — '+esc(tm.course)+'</div>':"")+'</div>';
+  }
+  /* today list */
+  const tl=$("#todayList");tl.innerHTML="";
+  if(!list.length)tl.innerHTML='<p class="hint">No classes today.</p>';
+  list.forEach(cls=>{
+    const st=styleFor(cls.code),status=clsStatus(cls,todayISO);
+    const row=document.createElement("div");
+    row.className="today-row "+status;
+    const state=status==="done"?'<span class="tr-state done">✓ Done</span>':status==="now"?'<span class="tr-state live">● LIVE</span>':status==="past"?'<span class="tr-state todo">Past</span>':'<span class="tr-state todo">Upcoming</span>';
+    row.innerHTML='<span class="tr-time">'+cls.start+'–'+SLOT_END[cls.start]+'</span>'+
+      '<span class="sw" style="background:'+st.tag+'"></span>'+
+      '<div class="tr-body"><b>'+esc(cls.course)+'</b><span>'+esc(cls.students.join(", "))+'</span></div>'+state;
+    row.onclick=()=>{const k=skey(todayISO,cls);if(schedDone[k])delete schedDone[k];else schedDone[k]=true;save();};
+    tl.appendChild(row);
+  });
+  /* stats */
+  const ws=weekStats(0);
+  const deliveredToday=list.filter(c=>schedDone[skey(todayISO,c)]).length;
+  const curSecs=courses.reduce((a,c)=>{const r=countCourseAll(c);return a+r.d;},0);
+  const totSecs=courses.reduce((a,c)=>{const r=countCourseAll(c);return a+r.t;},0);
+  const streak=(()=>{let s=0;const t=new Date();for(let i=0;;i++){const d=new Date(t);d.setDate(t.getDate()-i);const di=iso(d);
+    if(di===iso(t)){const l=SCHEDULE.filter(c=>c.day===(d.getDay()+6)%7+1);if(l.length&&l.every(c=>schedDone[skey(di,c)]))s++;else if(l.length)break;else continue;}
+    else{const l=SCHEDULE.filter(c=>c.day===(d.getDay()+6)%7+1);if(l.length&&l.every(c=>schedDone[skey(di,c)]))s++;else break;}
+    if(i>60)break;}return s;})();
+  $("#statStrip").innerHTML=
+    '<div class="stat-box"><b>'+deliveredToday+'/'+list.length+'</b><span>Done today</span></div>'+
+    '<div class="stat-box"><b>'+ws.done+'/'+ws.total+'</b><span>Week delivery</span></div>'+
+    '<div class="stat-box"><b>'+(totSecs?Math.round(curSecs/totSecs*100):0)+'%</b><span>Curriculum</span></div>'+
+    '<div class="stat-box"><b>'+streak+'</b><span>Day streak</span></div>';
+  renderWeekSummary(ws,"");
+  /* course cards */
+  const dc=$("#dashCourses");dc.innerHTML="";
+  courses.forEach(c=>{
+    const overall=countCourseAll(c),p=overall.t?Math.round(overall.d/overall.t*100):0;
+    const col=c.color||palette(c).grad;
+    const card=document.createElement("div");card.className="course-card";card.style.setProperty("--cc",c.color||"#6366f1");
+    let ghtml=c.groups.map((g,k)=>{const r=countCourse(c,k),gp=r.t?Math.round(r.d/r.t*100):0;
+      return '<div class="cc-g">'+esc(g.name)+'<div class="gm"><i style="width:'+gp+'%;background:'+gcol(k)+'"></i></div></div>';}).join("");
+    card.innerHTML='<div class="cc-top"><div class="cc-badge">'+esc(c.code.slice(0,2))+'</div>'+
+      '<div class="cc-info"><b>'+esc(c.code)+' · '+esc(c.title)+'</b><span>'+c.units.length+' units · '+overall.t+' section slots</span></div>'+
+      '<div class="cc-pct">'+p+'%</div></div>'+
+      '<div class="cc-bar"><i style="width:'+p+'%"></i></div><div class="cc-groups">'+ghtml+'</div>';
+    card.onclick=()=>{activeId=c.id;switchView("curriculum");};
+    dc.appendChild(card);
+  });
+}
+function renderWeekSummary(ws,suffix){
+  const pct=ws.total?Math.round(ws.done/ws.total*100):0;
+  $("#ringVal"+suffix).textContent=pct+"%";
+  $("#ringFill"+suffix).style.strokeDashoffset=(suffix==="S"?194.8:245)*(1-(ws.total?ws.done/ws.total:0));
+  $("#weekDoneTxt"+suffix).textContent=ws.done+" of "+ws.total+" classes delivered";
+  const wrap=$("#dayPills"+suffix)||$("#dayPills");
+  const cont=suffix==="S"?$("#dayCards"):$("#dayPills");
+  cont.innerHTML="";
+  const todayISO=iso(new Date());
+  ws.days.forEach((p,di)=>{
+    const pp=p.t?Math.round(p.d/p.t*100):0;
+    const el=document.createElement("div");el.className="day-pill";
+    if(p.dateISO===todayISO){el.style.borderColor="#c7d2fe";el.style.background="#eef2ff";}
+    el.innerHTML='<b>'+DAY_SHORT[di]+" · "+p.date.getDate()+(p.dateISO===todayISO?" · TODAY":"")+'</b>'+
+      '<div class="dp-track"><div class="dp-fill" style="width:'+pp+'%"></div></div><span>'+p.d+"/"+p.t+" delivered</span>";
+    el.onclick=()=>switchView("schedule");
+    cont.appendChild(el);
+  });
+}
+
+/* ================= CURRICULUM ================= */
+function renderCoursePills(){
+  const el=$("#coursePills");el.innerHTML="";
+  courses.forEach(c=>{
+    const overall=countCourseAll(c),p=overall.t?Math.round(overall.d/overall.t*100):0;
+    const b=document.createElement("div");
+    b.className="cpill"+(c.id===activeId?" active":"");b.style.setProperty("--cc",c.color||"#6366f1");
+    b.innerHTML='<span class="cdot"></span>'+esc(c.code)+' · '+esc(c.title)+' <span class="cp-pct">'+p+'%</span>';
+    b.onclick=()=>{activeId=c.id;renderAll();};
+    el.appendChild(b);
+  });
+}
+function renderContent(){
+  const el=$("#content");el.innerHTML="";
+  const c=active();
+  if(!c){el.innerHTML='<div class="empty-state panel"><div class="big">📘</div><h2>No course selected</h2></div>';return;}
+  const pal=palette(c),q=($("#search").value||"").trim().toLowerCase();
+  let gi=c.activeGroup||0;if(gi>=c.groups.length)gi=0;
+  const sel=c.groups[gi];
+  const {t,d}=countCourse(c,gi),p=t?Math.round(d/t*100):0;
+  const totalCh=c.units.reduce((a,u)=>a+u.chapters.length,0);
+
+  const hero=document.createElement("div");hero.className="course-hero";
+  hero.style.setProperty("--hero-grad",c.color?("linear-gradient(135deg,"+c.color+",#0ea5e9)"):pal.grad);
+  hero.style.setProperty("--hero-glow",pal.glow);
+  hero.innerHTML=
+   '<div class="hero-top">'+
+     '<div class="hero-badge">'+esc(c.code.slice(0,2))+'</div>'+
+     '<div class="hero-title"><h1><span contenteditable="true" id="editCode">'+esc(c.code)+'</span> · <span contenteditable="true" id="editTitle">'+esc(c.title)+'</span></h1>'+
+     '<p>Curriculum from Curricullum.xlsx · click titles to rename · everything saves automatically</p></div>'+
+     '<button class="btn danger sm ghost" onclick="deleteCourse(\''+c.id+'\')">🗑 Delete</button></div>'+
+   '<div class="hero-stats">'+
+     '<div class="stat"><b>'+c.units.length+'</b><span>Units</span></div>'+
+     '<div class="stat"><b>'+totalCh+'</b><span>Chapters</span></div>'+
+     '<div class="stat"><b>'+t+'</b><span>Sections</span></div>'+
+     '<div class="stat"><b style="color:'+gcol(gi)+'">'+p+'%</b><span>'+esc(sel.name)+'</span></div></div>'+
+   '<div class="group-tabs" id="groupTabs"></div>'+
+   '<div class="legend" id="legend"></div>';
+  el.appendChild(hero);
+
+  const codeEl=hero.querySelector("#editCode"),titleEl=hero.querySelector("#editTitle");
+  codeEl.onblur=()=>{const v=codeEl.textContent.trim();if(v&&v!==c.code){c.code=v;save();toast("Course code updated");}};
+  codeEl.onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();codeEl.blur();}};
+  titleEl.onblur=()=>{const v=titleEl.textContent.trim();if(v&&v!==c.title){c.title=v;save();toast("Course title updated");}};
+  titleEl.onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();titleEl.blur();}};
+
+  const tabs=hero.querySelector("#groupTabs");
+  c.groups.forEach((g,k)=>{
+    const r=countCourse(c,k),gp=r.t?Math.round(r.d/r.t*100):0;
+    const tab=document.createElement("div");
+    tab.className="g-tab"+(k===gi?" active":"");tab.style.setProperty("--gcol",gcol(k));
+    tab.innerHTML='<span class="g-edit" onclick="event.stopPropagation();manageGroup('+k+')">✎</span>'+
+      '<div class="g-head"><span class="g-dot"></span><b contenteditable="true" class="g-name">'+esc(g.name)+'</b><span class="g-pct">'+gp+'%</span></div>'+
+      '<div class="g-bar"><i style="width:'+gp+'%"></i></div>'+
+      '<div class="g-names">'+esc(g.students.join(", ")||"No students yet")+'</div>';
+    tab.onclick=()=>{c.activeGroup=k;save();};
+    const nm=tab.querySelector(".g-name");
+    nm.onblur=()=>{const v=nm.textContent.trim();if(v&&v!==g.name){g.name=v;save();toast("Group renamed");}};
+    nm.onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();nm.blur();}};
+    nm.onclick=e=>e.stopPropagation();
+    tabs.appendChild(tab);
+  });
+  const addG=document.createElement("button");addG.className="add-group";addG.textContent="＋ Add Group";
+  addG.onclick=()=>{const name=prompt("Group name:","Group "+(c.groups.length+1));if(!name)return;
+    c.groups.push({name:name.trim(),students:[]});
+    c.units.forEach(u=>u.chapters.forEach(ch=>ch.secs.forEach(s=>s.done.push(false))));
+    c.activeGroup=c.groups.length-1;save();toast("Group added");};
+  tabs.appendChild(addG);
+
+  hero.querySelector("#legend").innerHTML='<span style="font-weight:700">Section dots:</span>'+
+    c.groups.map((g,k)=>'<span class="lg"><span class="ld" style="background:'+gcol(k)+'"></span>'+esc(g.name)+'</span>').join("")+
+    '<span style="margin-left:auto">Editing: <b style="color:'+gcol(gi)+'">'+esc(sel.name)+'</b></span>';
+
+  c.units.forEach((u,ui)=>{
+    const r=countUnit(u,gi),up=r.t?Math.round(r.d/r.t*100):0;
+    const unit=document.createElement("div");unit.className="unit collapsed";
+    unit.style.setProperty("--unit-grad",c.color?("linear-gradient(135deg,"+c.color+",#0ea5e9)"):pal.grad);
+    unit.style.setProperty("--unit-tint",pal.tint);
+    unit.innerHTML=
+     '<div class="unit-head" onclick="this.parentElement.classList.toggle(\'collapsed\')">'+
+       '<div class="u-num">'+(ui+1)+'</div>'+
+       '<div class="u-name"><b class="u-name-txt" contenteditable="true">'+esc(u.name)+'</b><span>'+u.chapters.length+' chapters · '+r.d+'/'+r.t+' sections · '+esc(sel.name)+'</span></div>'+
+       '<div class="u-progress"><div class="track"><div class="fill" style="width:'+up+'%;background:'+gcol(gi)+'"></div></div></div>'+
+       '<span style="font-size:11px;color:var(--muted);font-weight:700">'+up+'%</span>'+
+       '<button class="icon-btn" onclick="event.stopPropagation();delUnit('+ui+')">🗑</button>'+
+       '<svg class="chev" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/></svg></div>'+
+     '<div class="unit-body"><div class="ch-wrap"></div>'+
+       '<div class="add-row"><input placeholder="New chapter name…" id="nc-'+ui+'"><button class="add-btn" onclick="addChapter('+ui+')">＋ Chapter</button></div></div>';
+    const nameTxt=unit.querySelector(".u-name-txt");
+    nameTxt.onblur=()=>{const v=nameTxt.textContent.trim();if(v&&v!==u.name){u.name=v;save();toast("Unit renamed");}};
+    nameTxt.onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();nameTxt.blur();}};
+    nameTxt.onclick=e=>e.stopPropagation();
+    el.appendChild(unit);
+    const wrap=unit.querySelector(".ch-wrap");
+    u.chapters.forEach((ch,ci)=>{
+      const cr=countChapter(ch,gi),cp=cr.t?Math.round(cr.d/cr.t*100):0;
+      const allDone=cr.t>0&&cr.d===cr.t;
+      const visible=!q||ch.secs.some(s=>s.label.toLowerCase().includes(q))||ch.name.toLowerCase().includes(q);
+      const chap=document.createElement("div");chap.className="chapter"+(q?"":" collapsed");
+      chap.style.display=visible?"":"none";
+      chap.innerHTML=
+       '<div class="chapter-head" onclick="this.parentElement.classList.toggle(\'collapsed\')">'+
+         '<span class="c-tag">'+(u.name.indexOf("Assess")>-1?"★":"CH "+(ci+1))+'</span>'+
+         '<span class="c-name">'+esc(ch.name)+(ch.note?' <em>— '+esc(ch.note)+'</em>':"")+'</span>'+
+         (cr.t?'<span class="c-bar"><i style="width:'+cp+'%;background:'+(allDone?"#10b981":gcol(gi))+'"></i></span><span class="c-count">'+cr.d+'/'+cr.t+'</span>':"")+
+         (cr.t?'<button class="c-all" onclick="event.stopPropagation();markChapter('+ui+','+ci+')">'+(allDone?"↺ Clear":"✓ All")+'</button>':"")+
+         '<button class="icon-btn" onclick="event.stopPropagation();delChapter('+ui+','+ci+')">🗑</button>'+
+         '<svg class="chev" width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/></svg></div>'+
+       '<div class="chapter-body"></div>';
+      const body=chap.querySelector(".chapter-body");
+      ch.secs.forEach((s,si)=>{
+        const vis=!q||s.label.toLowerCase().includes(q);
+        const sec=document.createElement("span");sec.className="sec"+(s.done[gi]?" done":"");sec.style.display=vis?"":"none";
+        let dots="";for(let k=0;k<c.groups.length;k++)dots+='<span class="gd g'+(k%3)+(s.done[k]?" on":"")+'" title="'+esc(c.groups[k].name)+'"></span>';
+        sec.innerHTML='<span class="g-dots">'+dots+'</span>'+
+          '<span class="box"><svg width="9" height="9" viewBox="0 0 16 16" fill="#fff"><path d="M13.485 1.431a1.473 1.473 0 0 1 0 2.084l-7.77 7.769a1.473 1.473 0 0 1-2.084 0L2.515 9.374a1.473 1.473 0 0 1 2.084-2.084l1.06 1.06 6.728-6.728a1.473 1.473 0 0 1 2.098-.191z"/></svg></span>'+
+          esc(s.label)+'<span class="del" title="Remove">×</span>';
+        sec.querySelector(".box").parentElement.onclick=e=>{if(e.target.classList.contains("del"))return;s.done[gi]=!s.done[gi];save();};
+        sec.querySelector(".del").onclick=e=>{e.stopPropagation();ch.secs.splice(si,1);save();};
+        body.appendChild(sec);
+      });
+      if(!ch.secs.length)body.innerHTML='<span class="hint">No sections yet — add one below.</span>';
+      const row=document.createElement("div");row.className="add-row";row.style.width="100%";
+      row.innerHTML='<input placeholder="New section… (e.g. 9.1)" class="ns-in"><button class="add-btn ns-btn">＋ Section</button>';
+      const nsIn=row.querySelector(".ns-in");
+      const doAdd=()=>{const v=nsIn.value.trim();if(v){ch.secs.push({label:v,done:c.groups.map(()=>false)});save();}};
+      row.querySelector(".ns-btn").onclick=doAdd;
+      nsIn.onkeydown=e=>{if(e.key==="Enter")doAdd();};
+      body.appendChild(row);
+      wrap.appendChild(chap);
+    });
+  });
+  const au=document.createElement("div");au.className="add-row";
+  au.innerHTML='<input placeholder="New unit name… (e.g. Unit 5)" id="newUnit"><button class="add-btn" onclick="addUnit()">＋ Add Unit</button>';
+  el.appendChild(au);
+}
+function markChapter(ui,ci){
+  const c=active();let gi=c.activeGroup||0;if(gi>=c.groups.length)gi=0;
+  const ch=c.units[ui].chapters[ci];if(!ch.secs.length)return;
+  const all=ch.secs.every(s=>s.done[gi]);
+  ch.secs.forEach(s=>s.done[gi]=!all);
+  save();toast(all?"Chapter cleared":"Chapter marked complete ✓");
+}
+function manageGroup(k){
+  const c=active(),g=c.groups[k];
+  const choice=prompt("Group: "+g.name+"\nStudents: "+(g.students.join(", ")||"none")+"\n\n1. Rename\n2. Add student\n3. Remove student\n4. Delete group","1");
+  if(!choice)return;
+  if(choice==="1"){const v=prompt("New group name:",g.name);if(v&&v.trim()){g.name=v.trim();save();toast("Group renamed");}}
+  else if(choice==="2"){const v=prompt("Student name:");if(v&&v.trim()){g.students.push(v.trim());save();toast("Student added");}}
+  else if(choice==="3"){const list=g.students.map((s,i)=>(i+1)+". "+s).join("\n");const n=prompt("Students:\n"+list+"\n\nNumber to remove:");
+    const idx=parseInt(n)-1;if(idx>=0&&idx<g.students.length){g.students.splice(idx,1);save();toast("Student removed");}}
+  else if(choice==="4"){
+    if(c.groups.length<=1){alert("A course needs at least one group.");return;}
+    if(!confirm("Delete "+g.name+"? Its progress data will be removed."))return;
+    c.groups.splice(k,1);
+    c.units.forEach(u=>u.chapters.forEach(ch=>ch.secs.forEach(s=>s.done.splice(k,1))));
+    if(c.activeGroup>=c.groups.length)c.activeGroup=0;
+    save();toast("Group deleted");
+  }
+}
+function addUnit(){const v=$("#newUnit").value.trim();if(!v)return;active().units.push({name:v,chapters:[]});save();toast("Unit added");}
+function delUnit(ui){if(!confirm("Delete this unit and all its chapters?"))return;active().units.splice(ui,1);save();}
+function addChapter(ui){const v=$("#nc-"+ui).value.trim();if(!v)return;active().units[ui].chapters.push({name:v,note:"",secs:[]});save();toast("Chapter added");}
+function delChapter(ui,ci){active().units[ui].chapters.splice(ci,1);save();}
+function addCourse(){
+  const code=prompt("Course code (e.g. MHF4U):");if(!code||!code.trim())return;
+  const title=prompt("Course title:","Advanced Functions")||"";
+  const n=parseInt(prompt("How many groups?","3"))||3;
+  const groups=[];for(let i=0;i<n;i++)groups.push({name:"Group "+(i+1),students:[]});
+  courses.push({id:"c"+Date.now(),code:code.trim().toUpperCase(),title:title.trim()||"New Course",color:"#0ea5e9",activeGroup:0,groups,units:[{name:"Unit 1",chapters:[]}],palette:courses.length%PALETTES.length});
+  activeId=courses[courses.length-1].id;save();toast("Course created");
+}
+function deleteCourse(id){
+  const c=courses.find(x=>x.id===id);
+  if(!confirm("Delete "+c.code+" permanently?"))return;
+  courses=courses.filter(x=>x.id!==id);
+  if(activeId===id)activeId=courses[0]?courses[0].id:null;
+  save();toast("Course deleted");
+}
+function exportData(){
+  const blob=new Blob([JSON.stringify({courses,schedDone,notifOn,notifSent},null,2)],{type:"application/json"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="curriculum-studio-elmi.json";a.click();toast("Exported as JSON");
+}
+function importData(e){
+  const f=e.target.files[0];if(!f)return;const r=new FileReader();
+  r.onload=()=>{try{const d=JSON.parse(r.result);courses=migrate(d.courses||d);schedDone=d.schedDone||{};notifOn=!!d.notifOn;notifSent=d.notifSent||{};activeId=courses[0]?courses[0].id:null;save();toast("Data imported");}catch(err){alert("Invalid file");}};
+  r.readAsText(f);e.target.value="";
+}
+function resetData(){
+  if(!confirm("Reset everything to the original Excel data? Your changes will be lost."))return;
+  localStorage.removeItem(LS_KEY);courses=seedCourses();activeId=courses[0].id;schedDone={};notifSent={};save();toast("Restored original data");
+}
+
+/* ================= SCHEDULE ================= */
+function shiftWeek(d){weekOffset+=d;renderSchedule();}
+function goThisWeek(){weekOffset=0;renderSchedule();}
+function renderSchedule(){
+  const ws=weekStats(weekOffset);
+  const mon=mondayOf(weekOffset),fri=new Date(mon);fri.setDate(mon.getDate()+4);
+  const range=mon.getDate()+" "+MONTHS[mon.getMonth()]+" – "+fri.getDate()+" "+MONTHS[fri.getMonth()]+" "+fri.getFullYear();
+  $("#wkLabel").textContent=range;$("#logWeek").textContent=range;
+  const todayISO=iso(new Date()),isCur=weekOffset===0;
+  renderWeekSummary(ws,"S");
+  /* timetable */
+  const tt=$("#timetable");tt.innerHTML="";
+  const h0=document.createElement("div");h0.className="tt-head";h0.style.background="transparent";h0.style.border="none";tt.appendChild(h0);
+  ws.days.forEach((p,di)=>{
+    const h=document.createElement("div");h.className="tt-head"+(isCur&&p.dateISO===todayISO?" today":"");
+    h.innerHTML=DAY_SHORT[di]+'<span class="dt">'+p.date.getDate()+" "+MONTHS[p.date.getMonth()]+"</span>";
+    tt.appendChild(h);
+  });
+  SLOTS.forEach(slot=>{
+    const t=document.createElement("div");t.className="tt-time";t.textContent=slot;tt.appendChild(t);
+    ws.days.forEach((p,di)=>{
+      const cell=document.createElement("div");cell.className="tt-cell"+(isCur&&p.dateISO===todayISO?" today-col":"");
+      if(slot==="13:00"){cell.classList.add("lunch");cell.textContent="— Lunch —";tt.appendChild(cell);return;}
+      const cls=SCHEDULE.find(c=>c.day===di+1&&c.start===slot);
+      if(cls){
+        const st=styleFor(cls.code),status=clsStatus(cls,p.dateISO);
+        const card=document.createElement("div");card.className="cls "+status;
+        card.style.background=st.bg;card.style.borderColor=st.bd;
+        card.innerHTML='<span class="cc" style="background:'+st.tag+'">'+esc(cls.code)+'</span>'+
+          '<div class="cn" style="color:'+st.tx+'">'+esc(cls.course)+'</div>'+
+          '<div class="cs">'+esc(cls.students.join(", "))+'</div>'+
+          '<div class="ct">'+cls.start+"–"+SLOT_END[slot]+" · "+TEACHER.room+"</div>"+
+          '<span class="ck"><svg width="9" height="9" viewBox="0 0 16 16" fill="#fff"><path d="M13.485 1.431a1.473 1.473 0 0 1 0 2.084l-7.77 7.769a1.473 1.473 0 0 1-2.084 0L2.515 9.374a1.473 1.473 0 0 1 2.084-2.084l1.06 1.06 6.728-6.728a1.473 1.473 0 0 1 2.098-.191z"/></svg></span>';
+        card.onclick=()=>{const k=skey(p.dateISO,cls);if(schedDone[k])delete schedDone[k];else schedDone[k]=true;save();};
+        cell.appendChild(card);
+      }else cell.style.borderColor="transparent";
+      tt.appendChild(cell);
+    });
+  });
+  /* daily log */
+  const dl=$("#dayLog");dl.innerHTML="";
+  ws.days.forEach((p,di)=>{
+    if(!p.t)return;
+    const dd=document.createElement("div");dd.className="log-day collapsed";
+    const pp=Math.round(p.d/p.t*100);
+    dd.innerHTML='<div class="log-day-h" onclick="this.parentElement.classList.toggle(\'collapsed\')">'+
+      '<b>'+DAY_NAMES[di]+'</b><span style="font-size:11.5px;color:var(--muted)">'+p.date.getDate()+" "+MONTHS[p.date.getMonth()]+"</span>"+
+      '<span class="lg-pill">'+p.d+"/"+p.t+" · "+pp+'%</span></div><div class="log-day-b"></div>';
+    const body=dd.querySelector(".log-day-b");
+    SCHEDULE.filter(c=>c.day===di+1).sort((a,b)=>toMin(a.start)-toMin(b.start)).forEach(cls=>{
+      const k=skey(p.dateISO,cls),doneK=!!schedDone[k],st=styleFor(cls.code);
+      const it=document.createElement("div");it.className="log-item"+(doneK?" done":"");
+      it.innerHTML='<span class="li-time">'+cls.start+"–"+SLOT_END[cls.start]+'</span>'+
+        '<span class="swatch" style="background:'+st.tag+'"></span>'+
+        '<span class="li-name">'+esc(cls.course)+'</span>'+
+        '<span class="li-students">'+esc(cls.students.join(", "))+'</span>'+
+        '<span class="log-check"><svg width="9" height="9" viewBox="0 0 16 16" fill="#fff"><path d="M13.485 1.431a1.473 1.473 0 0 1 0 2.084l-7.77 7.769a1.473 1.473 0 0 1-2.084 0L2.515 9.374a1.473 1.473 0 0 1 2.084-2.084l1.06 1.06 6.728-6.728a1.473 1.473 0 0 1 2.098-.191z"/></svg></span>';
+      it.onclick=()=>{if(schedDone[k])delete schedDone[k];else schedDone[k]=true;save();};
+      body.appendChild(it);
+    });
+    dl.appendChild(dd);
+  });
+}
+
+/* ================= NOTIFICATIONS ================= */
+function updateBell(){
+  const list=todaysClasses(),n=nowMin();
+  const remaining=list.filter(c=>toMin(SLOT_END[c.start])>n&&!schedDone[skey(iso(new Date()),c)]).length;
+  const b=$("#bellBadge");b.textContent=remaining;b.classList.toggle("hidden",remaining===0);
+}
+function renderNotifications(){
+  const list=todaysClasses(),n=nowMin(),todayISO=iso(new Date());
+  const tp=$("#todayPanel");tp.innerHTML="";
+  if(!list.length)tp.innerHTML='<p class="hint">No classes scheduled today.</p>';
+  let nextShown=false,liveShown=false;
+  list.forEach(cls=>{
+    const s=toMin(cls.start),e=toMin(SLOT_END[cls.start]);
+    const st=styleFor(cls.code),doneK=!!schedDone[skey(todayISO,cls)];
+    let cn="ncard";
+    if(n>=s&&n<e){cn+=" live";liveShown=true;}
+    else if(!nextShown&&n<s){cn+=" next";nextShown=true;}
+    else if(n>=e)cn+=" pastn";
+    const when=n>=s&&n<e?"🔴 LIVE NOW — ends "+SLOT_END[cls.start]:n<s?"⏳ Starts in "+fmtDur(s-n):"Finished";
+    const el=document.createElement("div");el.className=cn;
+    el.innerHTML='<div class="n-time">'+cls.start+" – "+SLOT_END[cls.start]+" · "+TEACHER.room+(doneK?" · ✅ delivered":"")+"</div>"+
+      '<div class="n-course"><span class="swatch" style="background:'+st.tag+'"></span>'+esc(cls.course)+"</div>"+
+      '<div class="n-students">'+cls.students.length+" students: "+esc(cls.students.join(", "))+"</div>"+
+      '<div class="n-when">'+when+"</div>";
+    tp.appendChild(el);
+  });
+  if(!liveShown&&!nextShown&&list.length){const d=document.createElement("div");d.className="ncard";d.innerHTML='<div class="n-course" style="font-size:13.5px">✅ All of today\'s classes are finished.</div>';tp.appendChild(d);}
+  renderNotifFeed();updateToggleUI();
+}
+function renderNotifFeed(){
+  const feed=$("#notifFeed"),items=Object.keys(notifSent).sort().reverse().slice(0,8);
+  if(!items.length){feed.innerHTML='<p class="hint">No reminders yet. Turn reminders on and you\'ll get an alert 10 minutes before each class — with the course and the exact group of students.</p>';return;}
+  feed.innerHTML="";
+  items.forEach(k=>{
+    const meta=notifSent[k],el=document.createElement("div");el.className="notif-item";
+    el.innerHTML='<div class="ni-ic" style="background:#eef2ff">🔔</div><div><b>'+esc(meta.course)+" — class starting soon</b>"+
+      "<span>"+esc(meta.when)+" · with "+esc(meta.students)+"</span></div>";
+    feed.appendChild(el);
+  });
+}
+function updateToggleUI(){$("#notifToggle").classList.toggle("on",notifOn);$("#notifToggleTxt").textContent=notifOn?"Reminders on":"Reminders off";}
+function toggleNotifs(){
+  notifOn=!notifOn;save();updateToggleUI();
+  toast(notifOn?"🔔 Class reminders enabled — alerts 10 min before each lesson":"🔕 Class reminders disabled");
+  if(notifOn)checkNotifs();
+}
+function checkNotifs(){
+  if(!notifOn)return;
+  const list=todaysClasses(),n=nowMin(),todayISO=iso(new Date());
+  let changed=false;
+  list.forEach(cls=>{
+    const s=toMin(cls.start),k=todayISO+"|"+cls.day+"|"+cls.start+"|pre";
+    if(!notifSent[k]&&n>=s-10&&n<s){
+      notifSent[k]={course:cls.course,students:cls.students.join(", "),when:cls.start+"–"+SLOT_END[cls.start]+" today"};
+      changed=true;
+      toast("🔔 <b>Class in "+fmtDur(s-n)+":</b> "+esc(cls.course)+" — with "+esc(cls.students.slice(0,3).join(", "))+(cls.students.length>3?" +"+(cls.students.length-3)+" more":""));
+      if(view==="notifications")renderNotifFeed();
+    }
+    const k2=todayISO+"|"+cls.day+"|"+cls.start+"|start";
+    if(!notifSent[k2]&&n>=s&&n<s+2){
+      notifSent[k2]={course:cls.course+" (started)",students:cls.students.join(", "),when:"began at "+cls.start+" today"};
+      changed=true;
+      toast("▶️ <b>Now teaching:</b> "+esc(cls.course)+" · "+TEACHER.room);
+      if(view==="notifications")renderNotifFeed();
+    }
+  });
+  if(changed)save();else updateBell();
+}
+setInterval(()=>{checkNotifs();if(view==="dashboard")renderDashboard();if(view==="schedule")renderSchedule();if(view==="notifications")renderNotifications();},30000);
+
+$("#search").addEventListener("input",()=>{if(view==="curriculum")renderContent();});
+
+/* ================= INIT ================= */
+renderAll();
+</script>
+</body>
+</html>
